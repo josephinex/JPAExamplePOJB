@@ -1,6 +1,6 @@
 package com.app.dao;
 
-import com.app.entities.Bank;
+import com.app.model.Bank;
 import com.app.services.EntityManagerService;
 
 import javax.persistence.EntityManager;
@@ -25,12 +25,10 @@ public class BankDao {
         try {
             transaction.begin();
             final Bank bank = entityManager.find(Bank.class, bankId);
-            bank.setName(bankName);
+            bank.setBankName(bankName);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
-        } finally {
-            entityManager.close();
         }
     }
 
@@ -48,6 +46,7 @@ public class BankDao {
     public Bank getBank(int bankId) {
         transaction.begin();
         final Bank bank = entityManager.find(Bank.class, bankId);
+        transaction.commit();
         return bank;
     }
 }
