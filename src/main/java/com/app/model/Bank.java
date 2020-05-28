@@ -1,5 +1,6 @@
 package com.app.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GeneratorType;
@@ -7,13 +8,21 @@ import org.hibernate.annotations.GeneratorType;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "banks")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Bank {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(name="bank_name", unique = true)
     private String bankName;
+
+    @Column(nullable = false)
+    private String phone;
+
+    @Column(insertable = false)
+    private String address;
 }

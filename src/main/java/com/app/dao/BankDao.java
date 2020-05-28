@@ -10,29 +10,31 @@ public class BankDao {
     private EntityManager entityManager = EntityManagerService.getEntityManager();
     private EntityTransaction transaction = entityManager.getTransaction();
 
-    public boolean saveBank(Bank bank) {
+    public boolean saveBank(final Bank bank) {
         try {
             transaction.begin();
             entityManager.persist(bank);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
+            return false;
         }
         return true;
     }
 
-    public void updateBank(int bankId, String bankName) {
+    public void updateBank(final Bank bank, final Long id) {
         try {
             transaction.begin();
-            final Bank bank = entityManager.find(Bank.class, bankId);
-            bank.setBankName(bankName);
+            final Bank bank1 = entityManager.find(Bank.class, id);
+            bank1.setAddress(bank.getAddress());
+            bank1.setPhone(bank.getPhone());
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
         }
     }
 
-    public void deleteBank(int bankId) {
+    public void deleteBank(final Long bankId) {
         try {
             transaction.begin();
             final Bank bank = entityManager.find(Bank.class, bankId);
@@ -43,7 +45,7 @@ public class BankDao {
         }
     }
 
-    public Bank getBank(int bankId) {
+    public Bank getBank(final Long bankId) {
         transaction.begin();
         final Bank bank = entityManager.find(Bank.class, bankId);
         transaction.commit();
