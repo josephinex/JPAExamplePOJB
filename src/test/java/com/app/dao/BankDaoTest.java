@@ -65,6 +65,20 @@ public class BankDaoTest {
 
     @Test
     void saveBankTest() {
+        final Bank saveBank = new Bank();
+        saveBank.setBankName("MAIB");
+        saveBank.setPhone("890907087");
+        saveBank.setAddress("ABCD street, 78, Skopje");
+
+        bankDao.saveBank(saveBank);
+        final Bank actual = bankDao.getBank(saveBank.getId());
+
+        assertEquals(saveBank.getBankName(), actual.getBankName());
+        assertEquals(saveBank.getPhone(), actual.getPhone());
+    }
+
+    @Test
+    void getBankTest() {
         final Bank resultBank = bankDao.getBank(primaryBank.getId());
         assertEquals(primaryBank.getBankName(), resultBank.getBankName());
         assertEquals(primaryBank.getPhone(), resultBank.getPhone());
