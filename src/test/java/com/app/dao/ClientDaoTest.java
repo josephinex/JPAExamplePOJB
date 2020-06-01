@@ -1,6 +1,5 @@
 package com.app.dao;
 
-import com.app.model.Bank;
 import com.app.model.Client;
 import com.app.services.EntityManagerService;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,10 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ClientDaoTest {
 
@@ -141,6 +141,21 @@ public class ClientDaoTest {
 
         clientDao.saveClient(saveClient);
         final Client actual = clientDao.getClient(saveClient.getId());
+
+        assertNull(actual);
+    }
+
+    @Test
+    void columnPrecisionAttributeTest() {
+        final Client expected = new Client();
+        expected.setFirstName("Maurice");
+        expected.setLastName("Jean-Baptiste");
+        expected.setPhone("890907087");
+        expected.setAddress("ABCD street, 78, Skopje");
+        expected.setAmount(BigDecimal.valueOf(1000.9920)); //precision=8, scale=4
+
+        clientDao.saveClient(expected);
+        final Client actual = clientDao.getClient(expected.getId());
 
         assertNull(actual);
     }
